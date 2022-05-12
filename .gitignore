@@ -1,3 +1,11 @@
+
+
+# This project
+runs/
+data/processed
+data/raw
+
+# Visual Studio Code
 .vscode
 
 # Notebook
