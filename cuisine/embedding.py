@@ -38,3 +38,13 @@ def create_random_embedding(ingredient_list, dim):
         embedding[ingredient] = np.random.rand(dim)
 
     return embedding
+
+
+def create_one_hot_embedding(ingredient_list):
+
+    embedding = {}
+    num_ingredients = len(ingredient_list)
+    for ingredient, _ in enumerate(ingredient_list):
+        embedding[ingredient] = np.zeros(num_ingredients)
+        embedding[ingredient][ingredient] = 1
+    return embedding

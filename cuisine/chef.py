@@ -22,7 +22,7 @@ def make_binary_data(cookbook, ingredient_list):
     return X,y
 
 
-def make_embedding_data(cookbook, embedding):
+def make_recipe_embedding_data(cookbook, embedding, avg=False):
     # Make the data. X is a matrix with recipe rows and embedding dimension columns, 
     # where every row is the average of the embeddings in the recipes
 
@@ -36,10 +36,24 @@ def make_embedding_data(cookbook, embedding):
         ingredient_count = len(recipe['ingredients'])
         y[idx] = recipe['kitchen_id']
         for ingredient_id in recipe['ingredients']:
-            embedding_avg += embedding[ingredient_id] / ingredient_count
+            if avg:
+                embedding_avg += embedding[ingredient_id] / ingredient_count
+            else:
+                embedding_avg += embedding[ingredient_id]
             
         X[idx, :] = embedding_avg
             
     return X,y
+
+
+def make_ingredient_embedding_data(embedding):
+    # A matrix with as rows the ingredients and as columns the embedding
+    matrix = np.empty( (len(embedding), len(embedding[0])) )
+    for ingredient_idx, embedding_vector in embedding.items():
+        matrix[ingredient_idx, :] = embedding_vector
+    return matrix
+
+
+
     
     
