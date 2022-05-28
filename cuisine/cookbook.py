@@ -72,6 +72,47 @@ def get_cookbook_valid_answer():
     return cookbook_valid_answer
 
 
+def get_cookbook_test_question():
+
+    cookbook_valid_question = []
+
+    with open('data/test_classification_question.csv', 'r') as file:
+
+        csv_reader = reader(file, delimiter=",")
+
+        for i, row in enumerate(csv_reader):
+            ingredients = [ int(s) for s in row ]
+            cookbook_valid_question.append({
+                'recipe_id': i,
+                'ingredients': ingredients,
+                'kitchen_name': "UNKNOWNKITCHEN",
+                'kitchen_id': "-999"
+            })     
+
+    return cookbook_valid_question
+
+
+def get_cookbook_test_answer():
+
+    cookbook_valid_answer = []
+
+    with open('data/test_classification_answer.csv', 'r') as file:
+
+        csv_reader = reader(file, delimiter=",")
+
+        for i, row in enumerate(csv_reader):        
+            kitchen = row[0]        
+            cookbook_valid_answer.append({
+                'recipe_id': i,
+                'ingredients': [],
+                'kitchen_name': kitchen
+            })
+
+    fill_kitchen_list(cookbook_valid_answer)
+    add_kitchen_id_to_cookbook(cookbook_valid_answer)
+    return cookbook_valid_answer
+
+
 def get_ingredient_list():
 
     node_ingredient = pd.read_fwf('data/node_ingredient.csv', header=None)
@@ -95,3 +136,4 @@ def add_kitchen_id_to_cookbook(cookbook):
     for recipe in cookbook:
         kitchen_id = __kitchen_list.index(recipe['kitchen_name'])
         recipe['kitchen_id'] = kitchen_id
+        
